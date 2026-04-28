@@ -41,7 +41,7 @@ FlowDesk/
 Current active part:
 
 ```text
-Part 9 - Tests and reliability pass
+Part 10 - README, screenshots, and resume polish
 ```
 
 ## Part Overview
@@ -824,21 +824,21 @@ backend/cases/tests/test_cases_api.py
 
 Test coverage:
 
-- [ ] Create a case.
-- [ ] List cases.
-- [ ] Retrieve a case.
-- [ ] Update case status.
-- [ ] Filter by status.
-- [ ] Filter by priority.
-- [ ] Filter by category.
-- [ ] Search by title.
-- [ ] Search by description.
-- [ ] Create a note.
-- [ ] Case detail includes notes.
-- [ ] Overdue is true for past due open case.
-- [ ] Overdue is false for resolved past due case.
-- [ ] Overdue is false for closed past due case.
-- [ ] Generate summary saves `ai_summary`.
+- [x] Create a case.
+- [x] List cases.
+- [x] Retrieve a case.
+- [x] Update case status.
+- [x] Filter by status.
+- [x] Filter by priority.
+- [x] Filter by category.
+- [x] Search by title.
+- [x] Search by description.
+- [x] Create a note.
+- [x] Case detail includes notes.
+- [x] Overdue is true for past due open case.
+- [x] Overdue is false for resolved past due case.
+- [x] Overdue is false for closed past due case.
+- [x] Generate summary saves `ai_summary`.
 
 Commands:
 
@@ -857,10 +857,10 @@ npm run build
 
 Move-on gate:
 
-- [ ] Backend tests pass.
-- [ ] Django check passes.
-- [ ] Frontend build passes.
-- [ ] Any known bugs are documented or fixed.
+- [x] Backend tests pass.
+- [x] Django check passes.
+- [x] Frontend build passes.
+- [x] Any known bugs are documented or fixed.
 
 Suggested commit:
 

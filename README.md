@@ -24,6 +24,7 @@ The project is designed as a realistic full-stack portfolio app using a React fr
 - Dashboard can load, search, filter, and create cases
 - Case detail page can load cases, update status/priority, and add notes
 - Mock AI summaries can be generated from case details and notes
+- Backend tests cover core case workflows
 
 ## Tech Stack
 
@@ -166,7 +167,14 @@ VITE_API_BASE_URL=http://127.0.0.1:8000/api
 
 ## Running Tests
 
-Backend test instructions will be added once the test suite is in place.
+Backend tests:
+
+```powershell
+Set-Location backend
+.\venv\Scripts\python.exe -m pytest
+.\venv\Scripts\python.exe manage.py check
+.\venv\Scripts\python.exe manage.py makemigrations --check --dry-run
+```
 
 Frontend checks:
 
