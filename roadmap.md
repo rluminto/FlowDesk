@@ -41,7 +41,7 @@ FlowDesk/
 Current active part:
 
 ```text
-Part 6 - Dashboard list, filters, and create form
+Part 7 - Case detail page, notes, and updates
 ```
 
 ## Part Overview
@@ -609,22 +609,22 @@ frontend/src/components/CaseForm.tsx
 
 Tasks:
 
-- [ ] Define case TypeScript types.
-- [ ] Create API functions for listing and creating cases.
-- [ ] Build dashboard loading state.
-- [ ] Build dashboard error state.
-- [ ] Fetch cases from backend.
-- [ ] Render case list.
-- [ ] Add search input.
-- [ ] Add status filter.
-- [ ] Add priority filter.
-- [ ] Add category filter.
-- [ ] Add clear filters button.
-- [ ] Build create case form.
-- [ ] Validate required fields.
-- [ ] Refresh list after creating a case.
-- [ ] Show overdue badge.
-- [ ] Add empty state for no matching cases.
+- [x] Define case TypeScript types.
+- [x] Create API functions for listing and creating cases.
+- [x] Build dashboard loading state.
+- [x] Build dashboard error state.
+- [x] Fetch cases from backend.
+- [x] Render case list.
+- [x] Add search input.
+- [x] Add status filter.
+- [x] Add priority filter.
+- [x] Add category filter.
+- [x] Add clear filters button.
+- [x] Build create case form.
+- [x] Validate required fields.
+- [x] Refresh list after creating a case.
+- [x] Show overdue badge.
+- [x] Add empty state for no matching cases.
 
 Dashboard should show:
 
@@ -639,21 +639,21 @@ Dashboard should show:
 
 Verification:
 
-- [ ] Start backend.
-- [ ] Start frontend.
-- [ ] Dashboard loads cases from backend.
-- [ ] Search updates results.
-- [ ] Filters update results.
-- [ ] Create form creates a real backend case.
-- [ ] New case appears in list.
-- [ ] Empty state appears when filters match nothing.
+- [x] Start backend.
+- [x] Start frontend.
+- [x] Dashboard loads cases from backend.
+- [x] Search updates results.
+- [x] Filters update results.
+- [x] Create form creates a real backend case.
+- [x] New case appears in list.
+- [x] Empty state appears when filters match nothing.
 
 Move-on gate:
 
-- [ ] User can create and browse cases from UI.
-- [ ] User can search and filter cases from UI.
-- [ ] UI is readable on desktop and mobile.
-- [ ] No TypeScript errors.
+- [x] User can create and browse cases from UI.
+- [x] User can search and filter cases from UI.
+- [x] UI is readable on desktop and mobile.
+- [x] No TypeScript errors.
 
 Suggested commit:
 

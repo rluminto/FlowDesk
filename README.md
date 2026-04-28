@@ -16,6 +16,13 @@ The project is designed as a realistic full-stack portfolio app using a React fr
 - React frontend with TypeScript
 - Backend tests with pytest
 
+## Current Progress
+
+- Backend case and note API is implemented
+- Local fake case seed data is available
+- Frontend app shell and routing are implemented
+- Dashboard can load, search, filter, and create cases
+
 ## Tech Stack
 
 - React
