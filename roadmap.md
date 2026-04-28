@@ -41,7 +41,7 @@ FlowDesk/
 Current active part:
 
 ```text
-Part 10 - README, screenshots, and resume polish
+Part 11 - Authentication
 ```
 
 ## Part Overview
@@ -884,40 +884,40 @@ A polished README turns a working app into something recruiters and interviewers
 
 README sections:
 
-- [ ] Overview.
-- [ ] Features.
-- [ ] Tech stack.
-- [ ] Screenshots.
-- [ ] Architecture.
-- [ ] API routes.
-- [ ] Local setup.
-- [ ] Running tests.
-- [ ] Deployment notes.
-- [ ] What I learned.
-- [ ] Future improvements.
+- [x] Overview.
+- [x] Features.
+- [x] Tech stack.
+- [x] Screenshots.
+- [x] Architecture.
+- [x] API routes.
+- [x] Local setup.
+- [x] Running tests.
+- [x] Deployment notes.
+- [x] What I learned.
+- [x] Future improvements.
 
 Screenshots to capture:
 
-- [ ] Dashboard.
-- [ ] Create case form.
-- [ ] Filtered case list.
-- [ ] Case detail page.
-- [ ] Notes area.
-- [ ] AI summary example.
+- [x] Dashboard.
+- [x] Create case form.
+- [x] Filter/search controls on dashboard.
+- [x] Case detail page.
+- [x] Notes area.
+- [x] AI summary example.
 
 Resume bullets:
 
-- [ ] Basic version.
-- [ ] Stronger technical version.
-- [ ] Deployed version if deployment is complete.
+- [x] Basic version.
+- [x] Stronger technical version.
+- [x] Deployed version intentionally deferred until deployment.
 
 Move-on gate:
 
-- [ ] README looks complete.
-- [ ] Screenshots are added.
-- [ ] Setup instructions are accurate.
-- [ ] Test instructions are accurate.
-- [ ] Resume bullet is ready.
+- [x] README looks complete.
+- [x] Screenshots are added.
+- [x] Setup instructions are accurate.
+- [x] Test instructions are accurate.
+- [x] Resume bullet is ready.
 
 Suggested commit:
 
