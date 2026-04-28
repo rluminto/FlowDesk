@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 
-import { createNote, getCase, updateCase } from '../api/cases'
+import { createNote, generateSummary, getCase, updateCase } from '../api/cases'
 import { NoteForm } from '../components/NoteForm'
 import { NotesList } from '../components/NotesList'
 import { SummaryPanel } from '../components/SummaryPanel'
@@ -71,8 +71,10 @@ export function CaseDetail() {
   const [caseItem, setCaseItem] = useState<CaseItem | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [isUpdating, setIsUpdating] = useState(false)
+  const [isGeneratingSummary, setIsGeneratingSummary] = useState(false)
   const [error, setError] = useState('')
   const [actionError, setActionError] = useState('')
+  const [summaryError, setSummaryError] = useState('')
 
   useEffect(() => {
     let isCurrent = true
@@ -81,6 +83,7 @@ export function CaseDetail() {
       setIsLoading(true)
       setError('')
       setActionError('')
+      setSummaryError('')
 
       if (!hasValidCaseId) {
         if (isCurrent) {
@@ -161,6 +164,24 @@ export function CaseDetail() {
     await createNote({ case: caseItem.id, body })
     const updatedCase = await getCase(caseItem.id)
     setCaseItem(updatedCase)
+  }
+
+  async function handleGenerateSummary() {
+    if (!caseItem) {
+      return
+    }
+
+    setIsGeneratingSummary(true)
+    setSummaryError('')
+
+    try {
+      const updatedCase = await generateSummary(caseItem.id)
+      setCaseItem(updatedCase)
+    } catch {
+      setSummaryError('Could not generate a summary. Please try again.')
+    } finally {
+      setIsGeneratingSummary(false)
+    }
   }
 
   return (
@@ -316,7 +337,12 @@ export function CaseDetail() {
             </section>
 
             <aside>
-              <SummaryPanel summary={caseItem.ai_summary} />
+              <SummaryPanel
+                summary={caseItem.ai_summary}
+                error={summaryError}
+                isGenerating={isGeneratingSummary}
+                onGenerate={handleGenerateSummary}
+              />
             </aside>
           </div>
         </div>

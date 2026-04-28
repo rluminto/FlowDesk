@@ -23,6 +23,7 @@ The project is designed as a realistic full-stack portfolio app using a React fr
 - Frontend app shell and routing are implemented
 - Dashboard can load, search, filter, and create cases
 - Case detail page can load cases, update status/priority, and add notes
+- Mock AI summaries can be generated from case details and notes
 
 ## Tech Stack
 

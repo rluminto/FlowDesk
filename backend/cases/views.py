@@ -1,8 +1,9 @@
 from django.db.models import Q
-from rest_framework import viewsets
+from rest_framework import decorators, response, viewsets
 
 from .models import Case, CaseNote
 from .serializers import CaseNoteSerializer, CaseSerializer
+from .services.summaries import generate_case_summary
 
 
 class CaseViewSet(viewsets.ModelViewSet):
@@ -35,6 +36,14 @@ class CaseViewSet(viewsets.ModelViewSet):
             )
 
         return queryset
+
+    @decorators.action(detail=True, methods=["post"])
+    def generate_summary(self, request, pk=None):
+        case = self.get_object()
+        case.ai_summary = generate_case_summary(case)
+        case.save(update_fields=["ai_summary", "updated_at"])
+
+        return response.Response(self.get_serializer(case).data)
 
 
 class CaseNoteViewSet(viewsets.ModelViewSet):

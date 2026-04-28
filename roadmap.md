@@ -41,7 +41,7 @@ FlowDesk/
 Current active part:
 
 ```text
-Part 8 - Mock AI summary workflow
+Part 9 - Tests and reliability pass
 ```
 
 ## Part Overview
@@ -753,19 +753,19 @@ This gives the app a distinctive feature while avoiding API key setup until late
 
 Backend tasks:
 
-- [ ] Add summary generation service or helper.
-- [ ] Add `generate_summary` action to `CaseViewSet`.
-- [ ] Use title, description, category, priority, and notes.
-- [ ] Save result to `Case.ai_summary`.
-- [ ] Return updated case.
+- [x] Add summary generation service or helper.
+- [x] Add `generate_summary` action to `CaseViewSet`.
+- [x] Use title, description, category, priority, and notes.
+- [x] Save result to `Case.ai_summary`.
+- [x] Return updated case.
 
 Frontend tasks:
 
-- [ ] Add API function for summary generation.
-- [ ] Add button on case detail page.
-- [ ] Show loading state while generating.
-- [ ] Display summary after generation.
-- [ ] Handle errors clearly.
+- [x] Add API function for summary generation.
+- [x] Add button on case detail page.
+- [x] Show loading state while generating.
+- [x] Display summary after generation.
+- [x] Handle errors clearly.
 
 Recommended API:
 
@@ -782,18 +782,18 @@ Mock summary should be:
 
 Verification:
 
-- [ ] Case with no notes can generate summary.
-- [ ] Case with notes can generate better summary.
-- [ ] Summary is saved to database.
-- [ ] Refreshing page still shows summary.
-- [ ] Summary button does not break when clicked twice.
+- [x] Case with no notes can generate summary.
+- [x] Case with notes can generate better summary.
+- [x] Summary is saved to database.
+- [x] Refreshing page still shows summary.
+- [x] Summary button does not break when clicked twice.
 
 Move-on gate:
 
-- [ ] User can generate a summary from UI.
-- [ ] Summary persists.
-- [ ] Backend endpoint works directly.
-- [ ] Error and loading states exist.
+- [x] User can generate a summary from UI.
+- [x] Summary persists.
+- [x] Backend endpoint works directly.
+- [x] Error and loading states exist.
 
 Suggested commit:
 

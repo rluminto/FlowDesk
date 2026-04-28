@@ -58,3 +58,10 @@ export async function createNote(payload: CaseNoteCreatePayload) {
   const response = await apiClient.post<CaseNote>('/notes/', payload)
   return response.data
 }
+
+export async function generateSummary(id: number) {
+  const response = await apiClient.post<CaseItem>(
+    `/cases/${id}/generate_summary/`,
+  )
+  return response.data
+}
