@@ -53,11 +53,38 @@ See [plan.md](plan.md) for the full product plan and project rationale.
 
 ## Local Setup
 
-Setup instructions will be added as the backend and frontend are created.
+### Backend
+
+From the repo root:
+
+```powershell
+Set-Location backend
+python -m venv venv
+.\venv\Scripts\python.exe -m pip install --upgrade pip
+.\venv\Scripts\python.exe -m pip install -r requirements.txt
+.\venv\Scripts\python.exe manage.py migrate
+.\venv\Scripts\python.exe manage.py runserver
+```
+
+Backend URL:
+
+```text
+http://127.0.0.1:8000/
+```
+
+Admin login page:
+
+```text
+http://127.0.0.1:8000/admin/login/
+```
+
+### Frontend
+
+Frontend setup instructions will be added once the React app is created.
 
 ## Running Tests
 
-Test instructions will be added once the backend test suite is in place.
+Backend test instructions will be added once the test suite is in place.
 
 ## Demo
 

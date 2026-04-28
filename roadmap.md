@@ -41,7 +41,7 @@ FlowDesk/
 Current active part:
 
 ```text
-Part 1 - Backend project setup
+Part 2 - Case and note data model
 ```
 
 ## Part Overview
@@ -178,17 +178,17 @@ backend/
 
 Tasks:
 
-- [ ] Create Python virtual environment.
-- [ ] Install Django dependencies.
-- [ ] Save `requirements.txt`.
-- [ ] Start Django project named `config`.
-- [ ] Start Django app named `cases`.
-- [ ] Add `rest_framework`, `corsheaders`, and `cases` to `INSTALLED_APPS`.
-- [ ] Add CORS middleware.
-- [ ] Allow local frontend origin.
-- [ ] Run initial migrations.
-- [ ] Start Django dev server.
-- [ ] Verify Django loads in the browser.
+- [x] Create Python virtual environment.
+- [x] Install Django dependencies.
+- [x] Save `requirements.txt`.
+- [x] Start Django project named `config`.
+- [x] Start Django app named `cases`.
+- [x] Add `rest_framework`, `corsheaders`, and `cases` to `INSTALLED_APPS`.
+- [x] Add CORS middleware.
+- [x] Allow local frontend origin.
+- [x] Run initial migrations.
+- [x] Start Django dev server.
+- [x] Verify Django loads in the browser.
 
 Suggested commands:
 
@@ -212,11 +212,11 @@ http://127.0.0.1:8000/
 
 Move-on gate:
 
-- [ ] Django server runs.
-- [ ] No migration errors.
-- [ ] `requirements.txt` exists.
-- [ ] `cases` app is installed.
-- [ ] CORS is configured for Vite.
+- [x] Django server runs.
+- [x] No migration errors.
+- [x] `requirements.txt` exists.
+- [x] `cases` app is installed.
+- [x] CORS is configured for Vite.
 
 Suggested commit:
 
