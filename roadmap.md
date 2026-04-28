@@ -41,7 +41,7 @@ FlowDesk/
 Current active part:
 
 ```text
-Part 2 - Case and note data model
+Part 3 - REST API for cases and notes
 ```
 
 ## Part Overview
@@ -247,23 +247,23 @@ CaseNote
 
 `Case` fields:
 
-- [ ] `title`
-- [ ] `description`
-- [ ] `category`
-- [ ] `status`
-- [ ] `priority`
-- [ ] `assigned_user`
-- [ ] `due_date`
-- [ ] `ai_summary`
-- [ ] `created_at`
-- [ ] `updated_at`
+- [x] `title`
+- [x] `description`
+- [x] `category`
+- [x] `status`
+- [x] `priority`
+- [x] `assigned_user`
+- [x] `due_date`
+- [x] `ai_summary`
+- [x] `created_at`
+- [x] `updated_at`
 
 `CaseNote` fields:
 
-- [ ] `case`
-- [ ] `author`
-- [ ] `body`
-- [ ] `created_at`
+- [x] `case`
+- [x] `author`
+- [x] `body`
+- [x] `created_at`
 
 Status choices:
 
@@ -296,12 +296,12 @@ general
 
 Backend logic:
 
-- [ ] Add `Case.is_overdue()`.
-- [ ] A case is overdue only when due date is in the past and status is not `resolved` or `closed`.
-- [ ] Add helpful `__str__` methods.
-- [ ] Register models in Django admin.
-- [ ] Create migrations.
-- [ ] Apply migrations.
+- [x] Add `Case.is_overdue()`.
+- [x] A case is overdue only when due date is in the past and status is not `resolved` or `closed`.
+- [x] Add helpful `__str__` methods.
+- [x] Register models in Django admin.
+- [x] Create migrations.
+- [x] Apply migrations.
 
 Verification:
 
@@ -326,10 +326,10 @@ http://127.0.0.1:8000/admin/
 
 Move-on gate:
 
-- [ ] Models migrate successfully.
-- [ ] `Case` and `CaseNote` appear in admin.
-- [ ] Overdue logic exists.
-- [ ] No Django check errors.
+- [x] Models migrate successfully.
+- [x] `Case` and `CaseNote` appear in admin.
+- [x] Overdue logic exists.
+- [x] No Django check errors.
 
 Suggested commit:
 
