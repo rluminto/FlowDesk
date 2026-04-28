@@ -1,0 +1,763 @@
+Yes — that’s a **better strategy**.
+
+Instead of making a throwaway “Color Health practice app,” build a real project that helps you practice for the interview **and** becomes resume/GitHub material.
+
+The best project for you would be:
+
+# Project: AI-Assisted Case Management Dashboard
+
+Think of it like a lightweight dashboard for managing support cases, patient-like tasks, customer requests, or internal workflows.
+
+Do **not** use real health data. Use fake/mock users and fake cases.
+
+## Why this is a good resume project
+
+It shows:
+
+* React frontend
+* Django / Django REST Framework backend
+* SQL database
+* REST API design
+* Authentication
+* CRUD features
+* Filtering/search/sorting
+* Tests
+* AI-assisted workflow
+* Deployment
+* Real product thinking
+
+That is much stronger than saying “built a to-do app.”
+
+---
+
+# Final app idea
+
+Build an app called:
+
+```text
+FlowDesk
+```
+
+Description:
+
+```text
+An AI-assisted case management dashboard that helps teams create, assign, track, and summarize operational cases.
+```
+
+Example cases:
+
+```text
+Customer refund request
+Appointment scheduling issue
+Billing question
+Technical support ticket
+Follow-up needed
+Document review
+```
+
+Each case has:
+
+```text
+title
+description
+category
+status
+priority
+assigned_user
+due_date
+created_at
+updated_at
+notes
+AI-generated summary
+```
+
+---
+
+# Tech stack
+
+Use this:
+
+```text
+Frontend:
+React + Vite + TypeScript
+
+Backend:
+Python + Django + Django REST Framework
+
+Database:
+PostgreSQL if possible
+SQLite is fine for local development
+
+Auth:
+Django auth or JWT
+
+Styling:
+Tailwind CSS
+
+Testing:
+pytest for backend
+React Testing Library optional
+
+Deployment:
+Render, Railway, Fly.io, or similar
+```
+
+For the interview, Django + React is enough. For the resume, TypeScript, tests, Docker, and deployment make it much stronger.
+
+---
+
+# MVP features
+
+Build these first.
+
+## User features
+
+```text
+User can sign up / log in
+User can create a case
+User can view all cases
+User can view case details
+User can update status
+User can assign priority
+User can add notes
+User can search cases
+User can filter by status, priority, and category
+User can see overdue cases
+```
+
+## AI feature
+
+Add one AI-related feature:
+
+```text
+Generate a short case summary from the case description and notes.
+```
+
+Example:
+
+```text
+Input:
+Customer says they were charged twice and has contacted support twice before. They want an update by Friday.
+
+AI Summary:
+Customer is requesting help with a duplicate charge and has followed up multiple times. Needs billing review before Friday.
+```
+
+You can implement this in two ways:
+
+```text
+Option 1:
+Use an actual AI API later.
+
+Option 2:
+Mock the AI summary at first with a simple function.
+```
+
+For now, mock it. Do not get blocked by API keys.
+
+---
+
+# Exact build plan
+
+## Step 1 — Create the repo
+
+```bash
+mkdir flowdesk
+cd flowdesk
+mkdir backend frontend
+touch README.md
+```
+
+Your repo should look like:
+
+```text
+flowdesk/
+  backend/
+  frontend/
+  README.md
+```
+
+---
+
+## Step 2 — Write your README before coding
+
+This makes the project look intentional.
+
+Put this in `README.md`:
+
+```md
+# FlowDesk
+
+FlowDesk is an AI-assisted case management dashboard for tracking operational cases, priorities, notes, and summaries.
+
+## Features
+
+- User authentication
+- Create, update, and manage cases
+- Filter cases by status, priority, and category
+- Add internal notes to cases
+- View overdue cases
+- Generate AI-style case summaries
+- REST API built with Django REST Framework
+- React frontend with TypeScript
+
+## Tech Stack
+
+- React
+- TypeScript
+- Django
+- Django REST Framework
+- PostgreSQL / SQLite
+- Tailwind CSS
+- pytest
+
+## Demo
+
+Coming soon.
+
+## Local Setup
+
+Coming soon.
+```
+
+---
+
+## Step 3 — Backend setup
+
+Inside `backend/`:
+
+```bash
+python -m venv venv
+source venv/bin/activate
+pip install django djangorestframework django-cors-headers pytest pytest-django
+django-admin startproject config .
+python manage.py startapp cases
+```
+
+Your backend structure:
+
+```text
+backend/
+  config/
+  cases/
+  manage.py
+```
+
+Add apps to Django settings:
+
+```python
+INSTALLED_APPS = [
+    ...
+    "rest_framework",
+    "corsheaders",
+    "cases",
+]
+```
+
+---
+
+## Step 4 — Create your main model
+
+In `cases/models.py`:
+
+```python
+from django.db import models
+from django.contrib.auth.models import User
+
+
+class Case(models.Model):
+    STATUS_CHOICES = [
+        ("open", "Open"),
+        ("in_progress", "In Progress"),
+        ("resolved", "Resolved"),
+        ("closed", "Closed"),
+    ]
+
+    PRIORITY_CHOICES = [
+        ("low", "Low"),
+        ("medium", "Medium"),
+        ("high", "High"),
+        ("urgent", "Urgent"),
+    ]
+
+    CATEGORY_CHOICES = [
+        ("billing", "Billing"),
+        ("scheduling", "Scheduling"),
+        ("technical", "Technical"),
+        ("general", "General"),
+    ]
+
+    title = models.CharField(max_length=200)
+    description = models.TextField()
+    category = models.CharField(max_length=50, choices=CATEGORY_CHOICES)
+    status = models.CharField(max_length=50, choices=STATUS_CHOICES, default="open")
+    priority = models.CharField(max_length=50, choices=PRIORITY_CHOICES, default="medium")
+    assigned_user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    due_date = models.DateField(null=True, blank=True)
+    ai_summary = models.TextField(blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def is_overdue(self):
+        from django.utils import timezone
+        return self.due_date is not None and self.due_date < timezone.now().date() and self.status != "resolved"
+
+    def __str__(self):
+        return self.title
+```
+
+Then run:
+
+```bash
+python manage.py makemigrations
+python manage.py migrate
+```
+
+---
+
+## Step 5 — Add notes
+
+In `cases/models.py`:
+
+```python
+class CaseNote(models.Model):
+    case = models.ForeignKey(Case, related_name="notes", on_delete=models.CASCADE)
+    author = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    body = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Note for {self.case.title}"
+```
+
+Run migrations again:
+
+```bash
+python manage.py makemigrations
+python manage.py migrate
+```
+
+---
+
+## Step 6 — Create serializers
+
+Create `cases/serializers.py`:
+
+```python
+from rest_framework import serializers
+from .models import Case, CaseNote
+
+
+class CaseNoteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CaseNote
+        fields = ["id", "case", "author", "body", "created_at"]
+        read_only_fields = ["id", "created_at"]
+
+
+class CaseSerializer(serializers.ModelSerializer):
+    notes = CaseNoteSerializer(many=True, read_only=True)
+    overdue = serializers.SerializerMethodField()
+
+    class Meta:
+        model = Case
+        fields = [
+            "id",
+            "title",
+            "description",
+            "category",
+            "status",
+            "priority",
+            "assigned_user",
+            "due_date",
+            "ai_summary",
+            "overdue",
+            "notes",
+            "created_at",
+            "updated_at",
+        ]
+        read_only_fields = ["id", "ai_summary", "created_at", "updated_at"]
+
+    def get_overdue(self, obj):
+        return obj.is_overdue()
+```
+
+---
+
+## Step 7 — Create API views
+
+In `cases/views.py`:
+
+```python
+from rest_framework import viewsets, decorators, response
+from .models import Case, CaseNote
+from .serializers import CaseSerializer, CaseNoteSerializer
+
+
+class CaseViewSet(viewsets.ModelViewSet):
+    queryset = Case.objects.all().order_by("-created_at")
+    serializer_class = CaseSerializer
+
+    def get_queryset(self):
+        queryset = Case.objects.all().order_by("-created_at")
+
+        status = self.request.query_params.get("status")
+        priority = self.request.query_params.get("priority")
+        category = self.request.query_params.get("category")
+        search = self.request.query_params.get("search")
+
+        if status:
+            queryset = queryset.filter(status=status)
+        if priority:
+            queryset = queryset.filter(priority=priority)
+        if category:
+            queryset = queryset.filter(category=category)
+        if search:
+            queryset = queryset.filter(title__icontains=search)
+
+        return queryset
+
+    @decorators.action(detail=True, methods=["post"])
+    def generate_summary(self, request, pk=None):
+        case = self.get_object()
+
+        note_text = " ".join(note.body for note in case.notes.all())
+
+        case.ai_summary = (
+            f"Summary: {case.title}. "
+            f"Category: {case.category}. "
+            f"Priority: {case.priority}. "
+            f"Description: {case.description[:150]} "
+            f"Notes: {note_text[:150]}"
+        )
+
+        case.save()
+        return response.Response(CaseSerializer(case).data)
+
+
+class CaseNoteViewSet(viewsets.ModelViewSet):
+    queryset = CaseNote.objects.all().order_by("-created_at")
+    serializer_class = CaseNoteSerializer
+```
+
+This gives you a fake AI summary first. Later, you can replace it with a real AI call.
+
+---
+
+## Step 8 — Add URLs
+
+Create `cases/urls.py`:
+
+```python
+from rest_framework.routers import DefaultRouter
+from .views import CaseViewSet, CaseNoteViewSet
+
+router = DefaultRouter()
+router.register("cases", CaseViewSet)
+router.register("notes", CaseNoteViewSet)
+
+urlpatterns = router.urls
+```
+
+In `config/urls.py`:
+
+```python
+from django.contrib import admin
+from django.urls import path, include
+
+urlpatterns = [
+    path("admin/", admin.site.urls),
+    path("api/", include("cases.urls")),
+]
+```
+
+Now test:
+
+```bash
+python manage.py runserver
+```
+
+Visit:
+
+```text
+http://127.0.0.1:8000/api/cases/
+```
+
+---
+
+# Frontend plan
+
+## Step 9 — Create React app
+
+Inside `frontend/`:
+
+```bash
+npm create vite@latest . -- --template react-ts
+npm install
+npm install axios
+npm install -D tailwindcss postcss autoprefixer
+npx tailwindcss init -p
+```
+
+Create pages/components:
+
+```text
+src/
+  api/
+    cases.ts
+  components/
+    CaseCard.tsx
+    CaseForm.tsx
+    CaseFilters.tsx
+  pages/
+    Dashboard.tsx
+    CaseDetail.tsx
+  App.tsx
+```
+
+---
+
+## Step 10 — API helper
+
+Create `src/api/cases.ts`:
+
+```ts
+import axios from "axios";
+
+const API_BASE_URL = "http://127.0.0.1:8000/api";
+
+export type CaseItem = {
+  id: number;
+  title: string;
+  description: string;
+  category: string;
+  status: string;
+  priority: string;
+  due_date: string | null;
+  ai_summary: string;
+  overdue: boolean;
+  created_at: string;
+  updated_at: string;
+};
+
+export async function getCases(params = {}) {
+  const response = await axios.get(`${API_BASE_URL}/cases/`, { params });
+  return response.data;
+}
+
+export async function createCase(data: Partial<CaseItem>) {
+  const response = await axios.post(`${API_BASE_URL}/cases/`, data);
+  return response.data;
+}
+
+export async function updateCase(id: number, data: Partial<CaseItem>) {
+  const response = await axios.patch(`${API_BASE_URL}/cases/${id}/`, data);
+  return response.data;
+}
+
+export async function generateSummary(id: number) {
+  const response = await axios.post(`${API_BASE_URL}/cases/${id}/generate_summary/`);
+  return response.data;
+}
+```
+
+---
+
+## Step 11 — Build the dashboard
+
+Your dashboard should show:
+
+```text
+Search bar
+Status filter
+Priority filter
+Category filter
+Create case form
+List of cases
+Overdue badge
+Generate summary button
+```
+
+Start simple. Do not get stuck trying to make it beautiful.
+
+---
+
+# What to prioritize
+
+Build in this order:
+
+```text
+1. Backend model
+2. Backend CRUD API
+3. React list view
+4. React create form
+5. Filters/search
+6. Case detail page
+7. Notes
+8. AI summary button
+9. Tests
+10. README screenshots
+11. Deployment
+```
+
+Do not start with authentication. Auth can slow you down. Add it after the core app works.
+
+---
+
+# What makes it resume-worthy
+
+A resume-worthy project needs more than just “it runs locally.”
+
+Add these:
+
+## 1. Tests
+
+Backend tests for:
+
+```text
+Create a case
+Filter by status
+Filter by priority
+Generate summary
+Mark overdue case
+```
+
+## 2. Good README
+
+Include:
+
+```text
+Project description
+Features
+Tech stack
+Screenshots
+Setup instructions
+API routes
+Demo link
+What I learned
+Future improvements
+```
+
+## 3. Deployment
+
+Deploy backend and frontend.
+
+Even a simple deployed version makes the project look much better.
+
+## 4. Screenshots
+
+Add screenshots to the README.
+
+Good screenshots:
+
+```text
+Dashboard
+Create case form
+Case detail page
+AI summary example
+Filter/search view
+```
+
+## 5. Clean commit history
+
+Use commits like:
+
+```text
+Add case model and API endpoints
+Add React dashboard
+Add case filtering and search
+Add notes feature
+Add AI summary generation
+Add backend tests
+Update README with screenshots
+```
+
+---
+
+# Resume bullet examples
+
+Once done, you can write:
+
+```text
+Built FlowDesk, a full-stack AI-assisted case management dashboard using React, TypeScript, Django REST Framework, and SQL, enabling users to create, filter, prioritize, and summarize operational cases.
+```
+
+Stronger version:
+
+```text
+Developed a full-stack case management platform with React, TypeScript, Django REST Framework, and PostgreSQL, implementing RESTful CRUD APIs, search/filtering, overdue task detection, internal notes, and AI-generated case summaries.
+```
+
+Even stronger if deployed:
+
+```text
+Deployed a full-stack workflow management app using React, TypeScript, Django REST Framework, and PostgreSQL; added automated backend tests, REST API documentation, and an AI-assisted summary feature to streamline case review.
+```
+
+---
+
+# How this helps your interview too
+
+This project directly trains the skills you need:
+
+```text
+CodeSignal full-stack task:
+You practice building features quickly.
+
+Agentic coding:
+You practice using AI tools without blindly trusting them.
+
+Color-style role:
+You practice React, Django, REST APIs, SQL, testing, and workflow/product thinking.
+
+Resume:
+You end with a project you can actually show.
+```
+
+---
+
+# Best version to build first
+
+Build the **MVP in 3 days**:
+
+## Day 1
+
+```text
+Django backend
+Case model
+CaseNote model
+CRUD API
+Filtering/search
+Fake AI summary endpoint
+```
+
+## Day 2
+
+```text
+React frontend
+Dashboard
+Create case form
+Case cards
+Filters
+Generate summary button
+```
+
+## Day 3
+
+```text
+Tests
+README
+Screenshots
+Deployment attempt
+Resume bullet draft
+```
+
+After that, improve it slowly.
+
+---
+
+# My recommendation
+
+Build **FlowDesk**.
+
+It is not too complicated, it matches the interview stack, and it gives you a project that sounds professional on a resume. The important part is to make it polished enough that someone can open your GitHub and immediately understand what you built.

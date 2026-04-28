@@ -1,0 +1,1133 @@
+# FlowDesk Build Roadmap
+
+This file is the working roadmap for building FlowDesk in clean, manageable parts. `plan.md` explains the full product idea. This file tells us what to build next, how to know each part is done, and when it is safe to move forward.
+
+## How We Will Work
+
+For every part, we will follow this loop:
+
+1. Read the relevant existing files.
+2. Build the smallest complete version of that part.
+3. Run the app or tests that prove it works.
+4. Fix issues before expanding scope.
+5. Update documentation or notes if the project shape changes.
+6. Commit the completed part when it is stable.
+
+The rule:
+
+```text
+One part should leave the app in a working state.
+```
+
+If a part is too big, we split it before coding.
+
+## Current Status
+
+Current project state:
+
+```text
+FlowDesk/
+  backend/
+  frontend/
+  docs/
+  screenshots/
+  .gitignore
+  README.md
+  idea.txt
+  plan.md
+  roadmap.md
+```
+
+Current active part:
+
+```text
+Part 1 - Backend project setup
+```
+
+## Part Overview
+
+Recommended build order:
+
+```text
+Part 0  - Project foundation
+Part 1  - Backend project setup
+Part 2  - Case and note data model
+Part 3  - REST API for cases and notes
+Part 4  - Backend quality pass and seed data
+Part 5  - Frontend project setup
+Part 6  - Dashboard list, filters, and create form
+Part 7  - Case detail page, notes, and updates
+Part 8  - Mock AI summary workflow
+Part 9  - Tests and reliability pass
+Part 10 - README, screenshots, and resume polish
+Part 11 - Authentication
+Part 12 - Deployment
+Part 13 - Optional stretch features
+```
+
+Parts 0 through 10 are the core resume-worthy MVP.
+
+Parts 11 through 13 make it stronger, but they should come after the core app works.
+
+## Part 0 - Project Foundation
+
+Goal:
+
+```text
+Create a clean repo foundation so the project starts organized.
+```
+
+Why this matters:
+
+```text
+This keeps the project easy to navigate and makes the GitHub repo look intentional from the first commit.
+```
+
+Expected files and folders:
+
+```text
+FlowDesk/
+  backend/
+  frontend/
+  docs/
+  screenshots/
+  .gitignore
+  README.md
+  idea.txt
+  plan.md
+  roadmap.md
+```
+
+Tasks:
+
+- [x] Initialize Git.
+- [x] Create `backend/`.
+- [x] Create `frontend/`.
+- [x] Create `docs/`.
+- [x] Create `screenshots/`.
+- [x] Create `.gitignore`.
+- [x] Create first version of `README.md`.
+- [x] Add a short project summary to `README.md`.
+- [x] Add a local setup placeholder to `README.md`.
+- [x] Make first commit.
+
+Suggested commands:
+
+```powershell
+git init
+New-Item -ItemType Directory -Force backend
+New-Item -ItemType Directory -Force frontend
+New-Item -ItemType Directory -Force docs
+New-Item -ItemType Directory -Force screenshots
+New-Item -ItemType File -Force README.md
+New-Item -ItemType File -Force .gitignore
+```
+
+`.gitignore` should include:
+
+```text
+backend/venv/
+backend/db.sqlite3
+backend/.env
+backend/.pytest_cache/
+backend/**/__pycache__/
+frontend/node_modules/
+frontend/dist/
+frontend/.env
+.DS_Store
+```
+
+Move-on gate:
+
+- [x] `git status` works.
+- [x] Project folders exist.
+- [x] README exists.
+- [x] `.gitignore` exists.
+- [x] First commit is created.
+
+Suggested commit:
+
+```text
+Initialize FlowDesk project structure
+```
+
+## Part 1 - Backend Project Setup
+
+Goal:
+
+```text
+Create a working Django backend with Django REST Framework and CORS configured.
+```
+
+Why this matters:
+
+```text
+The backend becomes the source of truth for cases, notes, filtering, and summary generation.
+```
+
+Expected backend structure:
+
+```text
+backend/
+  config/
+  cases/
+  manage.py
+  requirements.txt
+  pytest.ini
+```
+
+Tasks:
+
+- [ ] Create Python virtual environment.
+- [ ] Install Django dependencies.
+- [ ] Save `requirements.txt`.
+- [ ] Start Django project named `config`.
+- [ ] Start Django app named `cases`.
+- [ ] Add `rest_framework`, `corsheaders`, and `cases` to `INSTALLED_APPS`.
+- [ ] Add CORS middleware.
+- [ ] Allow local frontend origin.
+- [ ] Run initial migrations.
+- [ ] Start Django dev server.
+- [ ] Verify Django loads in the browser.
+
+Suggested commands:
+
+```powershell
+Set-Location backend
+python -m venv venv
+.\venv\Scripts\Activate.ps1
+pip install django djangorestframework django-cors-headers pytest pytest-django
+pip freeze > requirements.txt
+django-admin startproject config .
+python manage.py startapp cases
+python manage.py migrate
+python manage.py runserver
+```
+
+Verification:
+
+```text
+http://127.0.0.1:8000/
+```
+
+Move-on gate:
+
+- [ ] Django server runs.
+- [ ] No migration errors.
+- [ ] `requirements.txt` exists.
+- [ ] `cases` app is installed.
+- [ ] CORS is configured for Vite.
+
+Suggested commit:
+
+```text
+Add Django backend foundation
+```
+
+## Part 2 - Case And Note Data Model
+
+Goal:
+
+```text
+Create the database model for cases and notes.
+```
+
+Why this matters:
+
+```text
+The data model controls everything else: API shape, frontend types, filters, tests, and summary generation.
+```
+
+Models:
+
+```text
+Case
+CaseNote
+```
+
+`Case` fields:
+
+- [ ] `title`
+- [ ] `description`
+- [ ] `category`
+- [ ] `status`
+- [ ] `priority`
+- [ ] `assigned_user`
+- [ ] `due_date`
+- [ ] `ai_summary`
+- [ ] `created_at`
+- [ ] `updated_at`
+
+`CaseNote` fields:
+
+- [ ] `case`
+- [ ] `author`
+- [ ] `body`
+- [ ] `created_at`
+
+Status choices:
+
+```text
+open
+in_progress
+waiting
+resolved
+closed
+```
+
+Priority choices:
+
+```text
+low
+medium
+high
+urgent
+```
+
+Category choices:
+
+```text
+billing
+scheduling
+technical
+document_review
+general
+```
+
+Backend logic:
+
+- [ ] Add `Case.is_overdue()`.
+- [ ] A case is overdue only when due date is in the past and status is not `resolved` or `closed`.
+- [ ] Add helpful `__str__` methods.
+- [ ] Register models in Django admin.
+- [ ] Create migrations.
+- [ ] Apply migrations.
+
+Verification:
+
+```powershell
+python manage.py makemigrations
+python manage.py migrate
+python manage.py check
+```
+
+Optional admin verification:
+
+```powershell
+python manage.py createsuperuser
+python manage.py runserver
+```
+
+Then visit:
+
+```text
+http://127.0.0.1:8000/admin/
+```
+
+Move-on gate:
+
+- [ ] Models migrate successfully.
+- [ ] `Case` and `CaseNote` appear in admin.
+- [ ] Overdue logic exists.
+- [ ] No Django check errors.
+
+Suggested commit:
+
+```text
+Add case and note models
+```
+
+## Part 3 - REST API For Cases And Notes
+
+Goal:
+
+```text
+Expose cases and notes through a REST API.
+```
+
+Why this matters:
+
+```text
+The React frontend will depend on these endpoints for every core workflow.
+```
+
+Expected files:
+
+```text
+backend/cases/serializers.py
+backend/cases/views.py
+backend/cases/urls.py
+backend/config/urls.py
+```
+
+Tasks:
+
+- [ ] Create `CaseNoteSerializer`.
+- [ ] Create `CaseSerializer`.
+- [ ] Include nested read-only notes on case responses.
+- [ ] Include computed `overdue` field.
+- [ ] Create `CaseViewSet`.
+- [ ] Create `CaseNoteViewSet`.
+- [ ] Add DRF router.
+- [ ] Include API URLs under `/api/`.
+- [ ] Support filtering by status.
+- [ ] Support filtering by priority.
+- [ ] Support filtering by category.
+- [ ] Support search by title and description.
+- [ ] Add ordering by newest first.
+
+API endpoints:
+
+```http
+GET /api/cases/
+POST /api/cases/
+GET /api/cases/{id}/
+PATCH /api/cases/{id}/
+DELETE /api/cases/{id}/
+GET /api/notes/
+POST /api/notes/
+GET /api/notes/{id}/
+PATCH /api/notes/{id}/
+DELETE /api/notes/{id}/
+```
+
+Example filter URLs:
+
+```http
+GET /api/cases/?status=open
+GET /api/cases/?priority=urgent
+GET /api/cases/?category=billing
+GET /api/cases/?search=refund
+```
+
+Verification:
+
+- [ ] Open `/api/cases/` in the browser.
+- [ ] Create a case using DRF browsable API.
+- [ ] Create a note using DRF browsable API.
+- [ ] Confirm case detail includes notes.
+- [ ] Try each filter query.
+- [ ] Try search query.
+
+Move-on gate:
+
+- [ ] Case CRUD works.
+- [ ] Note CRUD works.
+- [ ] Filters work.
+- [ ] Search works.
+- [ ] Case response includes overdue.
+- [ ] Case response includes notes.
+
+Suggested commit:
+
+```text
+Add case and note REST API
+```
+
+## Part 4 - Backend Quality Pass And Seed Data
+
+Goal:
+
+```text
+Make the backend easier to demo and safer to build against.
+```
+
+Why this matters:
+
+```text
+Realistic sample data helps the frontend look like an actual product and makes screenshots easier later.
+```
+
+Tasks:
+
+- [ ] Add simple sample data path.
+- [ ] Decide between fixture or management command.
+- [ ] Create several fake cases.
+- [ ] Include different statuses.
+- [ ] Include different priorities.
+- [ ] Include different categories.
+- [ ] Include due dates.
+- [ ] Include at least one overdue case.
+- [ ] Include notes on some cases.
+- [ ] Verify API response with sample data.
+
+Preferred option:
+
+```text
+Create a Django management command: python manage.py seed_cases
+```
+
+Expected file:
+
+```text
+backend/cases/management/commands/seed_cases.py
+```
+
+Sample cases:
+
+- Duplicate billing charge.
+- Appointment reschedule request.
+- Login issue.
+- Document review follow-up.
+- Refund status request.
+- Missing intake form.
+- Account access escalation.
+
+Verification:
+
+```powershell
+python manage.py seed_cases
+python manage.py runserver
+```
+
+Then visit:
+
+```text
+http://127.0.0.1:8000/api/cases/
+```
+
+Move-on gate:
+
+- [ ] Seed command or fixture exists.
+- [ ] Fake data appears in API.
+- [ ] No sensitive or real personal data exists.
+- [ ] Frontend will have useful data to display.
+
+Suggested commit:
+
+```text
+Add sample case data
+```
+
+## Part 5 - Frontend Project Setup
+
+Goal:
+
+```text
+Create a working React, Vite, TypeScript frontend.
+```
+
+Why this matters:
+
+```text
+This gives us a clean app shell before we start building workflows.
+```
+
+Expected frontend structure:
+
+```text
+frontend/
+  src/
+    api/
+    components/
+    pages/
+    types/
+    App.tsx
+    main.tsx
+  package.json
+  vite.config.ts
+  .env
+```
+
+Tasks:
+
+- [ ] Create Vite React TypeScript app.
+- [ ] Install dependencies.
+- [ ] Install and configure Tailwind CSS.
+- [ ] Install React Router.
+- [ ] Create `.env` with `VITE_API_BASE_URL`.
+- [ ] Create basic app shell.
+- [ ] Create routes for dashboard and case detail.
+- [ ] Confirm Vite dev server works.
+
+Suggested commands:
+
+```powershell
+Set-Location frontend
+npm create vite@latest . -- --template react-ts
+npm install
+npm install axios react-router-dom
+npm install -D tailwindcss postcss autoprefixer
+```
+
+Environment variable:
+
+```text
+VITE_API_BASE_URL=http://127.0.0.1:8000/api
+```
+
+Verification:
+
+```powershell
+npm run dev
+```
+
+Then visit:
+
+```text
+http://localhost:5173/
+```
+
+Move-on gate:
+
+- [ ] Vite app runs.
+- [ ] TypeScript compiles.
+- [ ] Tailwind styles apply.
+- [ ] Router works.
+- [ ] API base URL is configured.
+
+Suggested commit:
+
+```text
+Add React frontend foundation
+```
+
+## Part 6 - Dashboard List, Filters, And Create Form
+
+Goal:
+
+```text
+Build the main dashboard where users can view, search, filter, and create cases.
+```
+
+Why this matters:
+
+```text
+This is the main user-facing workflow and the first screen someone will judge.
+```
+
+Expected files:
+
+```text
+frontend/src/api/cases.ts
+frontend/src/types/cases.ts
+frontend/src/pages/Dashboard.tsx
+frontend/src/components/CaseCard.tsx
+frontend/src/components/CaseFilters.tsx
+frontend/src/components/CaseForm.tsx
+```
+
+Tasks:
+
+- [ ] Define case TypeScript types.
+- [ ] Create API functions for listing and creating cases.
+- [ ] Build dashboard loading state.
+- [ ] Build dashboard error state.
+- [ ] Fetch cases from backend.
+- [ ] Render case list.
+- [ ] Add search input.
+- [ ] Add status filter.
+- [ ] Add priority filter.
+- [ ] Add category filter.
+- [ ] Add clear filters button.
+- [ ] Build create case form.
+- [ ] Validate required fields.
+- [ ] Refresh list after creating a case.
+- [ ] Show overdue badge.
+- [ ] Add empty state for no matching cases.
+
+Dashboard should show:
+
+- Case title.
+- Description preview.
+- Status.
+- Priority.
+- Category.
+- Due date.
+- Overdue state.
+- Summary preview if available.
+
+Verification:
+
+- [ ] Start backend.
+- [ ] Start frontend.
+- [ ] Dashboard loads cases from backend.
+- [ ] Search updates results.
+- [ ] Filters update results.
+- [ ] Create form creates a real backend case.
+- [ ] New case appears in list.
+- [ ] Empty state appears when filters match nothing.
+
+Move-on gate:
+
+- [ ] User can create and browse cases from UI.
+- [ ] User can search and filter cases from UI.
+- [ ] UI is readable on desktop and mobile.
+- [ ] No TypeScript errors.
+
+Suggested commit:
+
+```text
+Add dashboard case list and filters
+```
+
+## Part 7 - Case Detail Page, Notes, And Updates
+
+Goal:
+
+```text
+Build the full case detail workflow.
+```
+
+Why this matters:
+
+```text
+The dashboard is for scanning, but the detail page is where the case work actually happens.
+```
+
+Expected files:
+
+```text
+frontend/src/pages/CaseDetail.tsx
+frontend/src/components/NotesList.tsx
+frontend/src/components/NoteForm.tsx
+frontend/src/components/SummaryPanel.tsx
+```
+
+Tasks:
+
+- [ ] Add API function to retrieve one case.
+- [ ] Add API function to update one case.
+- [ ] Add API function to create a note.
+- [ ] Build case detail loading state.
+- [ ] Build case detail error state.
+- [ ] Display full case information.
+- [ ] Add status update control.
+- [ ] Add priority update control.
+- [ ] Display due date and overdue state.
+- [ ] Display notes.
+- [ ] Add note form.
+- [ ] Refresh case after adding note.
+- [ ] Add back link to dashboard.
+
+Detail page should show:
+
+- Title.
+- Description.
+- Category.
+- Status.
+- Priority.
+- Due date.
+- Created date.
+- Updated date.
+- Overdue badge.
+- AI summary area.
+- Notes.
+
+Verification:
+
+- [ ] Click case from dashboard.
+- [ ] Detail page loads from backend.
+- [ ] Status can be updated.
+- [ ] Priority can be updated.
+- [ ] Note can be added.
+- [ ] Added note appears without manual database editing.
+- [ ] Browser refresh on detail page still works.
+
+Move-on gate:
+
+- [ ] Case detail workflow works end to end.
+- [ ] Notes are usable.
+- [ ] Status and priority updates persist.
+- [ ] No TypeScript errors.
+
+Suggested commit:
+
+```text
+Add case detail and notes workflow
+```
+
+## Part 8 - Mock AI Summary Workflow
+
+Goal:
+
+```text
+Add the AI-assisted summary feature with a mock backend implementation.
+```
+
+Why this matters:
+
+```text
+This gives the app a distinctive feature while avoiding API key setup until later.
+```
+
+Backend tasks:
+
+- [ ] Add summary generation service or helper.
+- [ ] Add `generate_summary` action to `CaseViewSet`.
+- [ ] Use title, description, category, priority, and notes.
+- [ ] Save result to `Case.ai_summary`.
+- [ ] Return updated case.
+
+Frontend tasks:
+
+- [ ] Add API function for summary generation.
+- [ ] Add button on case detail page.
+- [ ] Show loading state while generating.
+- [ ] Display summary after generation.
+- [ ] Handle errors clearly.
+
+Recommended API:
+
+```http
+POST /api/cases/{id}/generate_summary/
+```
+
+Mock summary should be:
+
+- Concise.
+- Deterministic.
+- Based on real case fields.
+- Good enough to look useful in screenshots.
+
+Verification:
+
+- [ ] Case with no notes can generate summary.
+- [ ] Case with notes can generate better summary.
+- [ ] Summary is saved to database.
+- [ ] Refreshing page still shows summary.
+- [ ] Summary button does not break when clicked twice.
+
+Move-on gate:
+
+- [ ] User can generate a summary from UI.
+- [ ] Summary persists.
+- [ ] Backend endpoint works directly.
+- [ ] Error and loading states exist.
+
+Suggested commit:
+
+```text
+Add mock AI summary workflow
+```
+
+## Part 9 - Tests And Reliability Pass
+
+Goal:
+
+```text
+Add tests for the most important backend behavior and fix reliability issues.
+```
+
+Why this matters:
+
+```text
+Tests make the project feel professional and give you strong interview talking points.
+```
+
+Backend test files:
+
+```text
+backend/cases/tests/test_models.py
+backend/cases/tests/test_cases_api.py
+```
+
+Test coverage:
+
+- [ ] Create a case.
+- [ ] List cases.
+- [ ] Retrieve a case.
+- [ ] Update case status.
+- [ ] Filter by status.
+- [ ] Filter by priority.
+- [ ] Filter by category.
+- [ ] Search by title.
+- [ ] Search by description.
+- [ ] Create a note.
+- [ ] Case detail includes notes.
+- [ ] Overdue is true for past due open case.
+- [ ] Overdue is false for resolved past due case.
+- [ ] Overdue is false for closed past due case.
+- [ ] Generate summary saves `ai_summary`.
+
+Commands:
+
+```powershell
+Set-Location backend
+pytest
+python manage.py check
+```
+
+Optional frontend checks:
+
+```powershell
+Set-Location frontend
+npm run build
+```
+
+Move-on gate:
+
+- [ ] Backend tests pass.
+- [ ] Django check passes.
+- [ ] Frontend build passes.
+- [ ] Any known bugs are documented or fixed.
+
+Suggested commit:
+
+```text
+Add backend tests for case workflows
+```
+
+## Part 10 - README, Screenshots, And Resume Polish
+
+Goal:
+
+```text
+Make the project understandable and presentable on GitHub.
+```
+
+Why this matters:
+
+```text
+A polished README turns a working app into something recruiters and interviewers can quickly understand.
+```
+
+README sections:
+
+- [ ] Overview.
+- [ ] Features.
+- [ ] Tech stack.
+- [ ] Screenshots.
+- [ ] Architecture.
+- [ ] API routes.
+- [ ] Local setup.
+- [ ] Running tests.
+- [ ] Deployment notes.
+- [ ] What I learned.
+- [ ] Future improvements.
+
+Screenshots to capture:
+
+- [ ] Dashboard.
+- [ ] Create case form.
+- [ ] Filtered case list.
+- [ ] Case detail page.
+- [ ] Notes area.
+- [ ] AI summary example.
+
+Resume bullets:
+
+- [ ] Basic version.
+- [ ] Stronger technical version.
+- [ ] Deployed version if deployment is complete.
+
+Move-on gate:
+
+- [ ] README looks complete.
+- [ ] Screenshots are added.
+- [ ] Setup instructions are accurate.
+- [ ] Test instructions are accurate.
+- [ ] Resume bullet is ready.
+
+Suggested commit:
+
+```text
+Update README with screenshots and setup
+```
+
+## Part 11 - Authentication
+
+Goal:
+
+```text
+Add user accounts after the core product works.
+```
+
+Why this matters:
+
+```text
+Authentication makes the project more realistic, but it touches many areas, so it belongs after the MVP.
+```
+
+Recommended approach:
+
+```text
+JWT authentication with djangorestframework-simplejwt.
+```
+
+Backend tasks:
+
+- [ ] Install Simple JWT.
+- [ ] Add login endpoint.
+- [ ] Add token refresh endpoint.
+- [ ] Add signup endpoint.
+- [ ] Protect case endpoints.
+- [ ] Associate created cases with users where appropriate.
+- [ ] Add permission rules.
+
+Frontend tasks:
+
+- [ ] Add login page.
+- [ ] Add signup page.
+- [ ] Store access token.
+- [ ] Attach token to API requests.
+- [ ] Add logout.
+- [ ] Protect app routes.
+- [ ] Handle expired sessions.
+
+Move-on gate:
+
+- [ ] User can sign up.
+- [ ] User can log in.
+- [ ] Authenticated API requests work.
+- [ ] User can log out.
+- [ ] Unauthenticated users cannot access protected API routes.
+
+Suggested commit:
+
+```text
+Add JWT authentication
+```
+
+## Part 12 - Deployment
+
+Goal:
+
+```text
+Deploy the app or prepare a clear deployment path.
+```
+
+Why this matters:
+
+```text
+A live project is stronger for resumes and easier to share.
+```
+
+Recommended deployment:
+
+```text
+Frontend: Vercel or Netlify
+Backend: Render or Railway
+Database: PostgreSQL
+```
+
+Backend tasks:
+
+- [ ] Move secrets to environment variables.
+- [ ] Set `DEBUG=False` in production.
+- [ ] Configure `ALLOWED_HOSTS`.
+- [ ] Configure production CORS.
+- [ ] Configure PostgreSQL.
+- [ ] Add production requirements.
+- [ ] Run migrations in deployed environment.
+- [ ] Verify API works online.
+
+Frontend tasks:
+
+- [ ] Set deployed `VITE_API_BASE_URL`.
+- [ ] Build app.
+- [ ] Deploy frontend.
+- [ ] Verify frontend can call backend.
+- [ ] Verify detail page refresh works.
+
+Move-on gate:
+
+- [ ] Deployed frontend works.
+- [ ] Deployed backend works.
+- [ ] CORS works.
+- [ ] Database works.
+- [ ] README includes live demo link or deployment notes.
+
+Suggested commit:
+
+```text
+Prepare app for deployment
+```
+
+## Part 13 - Optional Stretch Features
+
+Only do these after the MVP is already strong.
+
+Good stretch features:
+
+- [ ] Sort by due date, priority, and created date.
+- [ ] Dashboard metrics cards.
+- [ ] "My cases" view.
+- [ ] Archive closed cases.
+- [ ] Activity history.
+- [ ] Better AI prompt and real AI API integration.
+- [ ] Docker setup.
+- [ ] API documentation with drf-spectacular.
+- [ ] Frontend tests.
+- [ ] Bulk status updates.
+- [ ] CSV export.
+
+Avoid until later:
+
+- [ ] Complex role-based permissions.
+- [ ] File uploads.
+- [ ] Notifications.
+- [ ] Real-time websockets.
+- [ ] Multi-tenant organizations.
+
+## Quality Standards
+
+Use these standards throughout the build:
+
+Backend:
+
+- Keep models simple and clear.
+- Put business logic in model methods or service helpers when it grows.
+- Keep serializers explicit.
+- Keep viewsets readable.
+- Test important behavior.
+- Use fake data only.
+
+Frontend:
+
+- Keep components focused.
+- Keep API calls in `src/api`.
+- Keep shared types in `src/types`.
+- Show loading, error, and empty states.
+- Make forms usable and clear.
+- Keep the dashboard efficient to scan.
+- Avoid overdesigned landing-page styling.
+
+Documentation:
+
+- Update README when setup steps change.
+- Keep screenshots current.
+- Keep resume bullets honest.
+- Explain tradeoffs clearly.
+
+## Part Completion Template
+
+When finishing each part, record:
+
+```text
+Part completed:
+What changed:
+Files changed:
+How it was tested:
+Known issues:
+Next part:
+Suggested commit:
+```
+
+Example:
+
+```text
+Part completed: Part 3 - REST API For Cases And Notes
+What changed: Added serializers, viewsets, filtering, search, and routes.
+Files changed: backend/cases/serializers.py, backend/cases/views.py, backend/cases/urls.py, backend/config/urls.py
+How it was tested: Created cases and notes in DRF browsable API; verified filters and search manually.
+Known issues: No automated tests yet.
+Next part: Part 4 - Backend Quality Pass And Seed Data
+Suggested commit: Add case and note REST API
+```
+
+## The Main Principle
+
+Build the project in layers:
+
+```text
+Working backend
+Working API
+Working frontend
+Working workflow
+Tested behavior
+Polished presentation
+Deployment and auth
+```
+
+That order gives us the best chance of ending with a project that is complete, understandable, and worth showing.
