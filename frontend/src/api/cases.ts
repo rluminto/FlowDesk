@@ -4,6 +4,9 @@ import type {
   CaseCreatePayload,
   CaseFilterValues,
   CaseItem,
+  CaseNote,
+  CaseNoteCreatePayload,
+  CaseUpdatePayload,
 } from '../types/cases'
 
 function buildCaseParams(filters: CaseFilterValues) {
@@ -38,5 +41,20 @@ export async function getCases(filters: CaseFilterValues) {
 
 export async function createCase(payload: CaseCreatePayload) {
   const response = await apiClient.post<CaseItem>('/cases/', payload)
+  return response.data
+}
+
+export async function getCase(id: number) {
+  const response = await apiClient.get<CaseItem>(`/cases/${id}/`)
+  return response.data
+}
+
+export async function updateCase(id: number, payload: CaseUpdatePayload) {
+  const response = await apiClient.patch<CaseItem>(`/cases/${id}/`, payload)
+  return response.data
+}
+
+export async function createNote(payload: CaseNoteCreatePayload) {
+  const response = await apiClient.post<CaseNote>('/notes/', payload)
   return response.data
 }

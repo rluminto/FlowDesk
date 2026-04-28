@@ -46,6 +46,22 @@ export type CaseCreatePayload = {
   due_date?: string | null
 }
 
+export type CaseUpdatePayload = Partial<{
+  title: string
+  description: string
+  category: CaseCategory
+  status: CaseStatus
+  priority: CasePriority
+  assigned_user: number | null
+  due_date: string | null
+}>
+
+export type CaseNoteCreatePayload = {
+  case: number
+  body: string
+  author?: number | null
+}
+
 export type CaseFilterValues = {
   search: string
   status: CaseStatus | ''

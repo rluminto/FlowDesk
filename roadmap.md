@@ -41,7 +41,7 @@ FlowDesk/
 Current active part:
 
 ```text
-Part 7 - Case detail page, notes, and updates
+Part 8 - Mock AI summary workflow
 ```
 
 ## Part Overview
@@ -686,19 +686,19 @@ frontend/src/components/SummaryPanel.tsx
 
 Tasks:
 
-- [ ] Add API function to retrieve one case.
-- [ ] Add API function to update one case.
-- [ ] Add API function to create a note.
-- [ ] Build case detail loading state.
-- [ ] Build case detail error state.
-- [ ] Display full case information.
-- [ ] Add status update control.
-- [ ] Add priority update control.
-- [ ] Display due date and overdue state.
-- [ ] Display notes.
-- [ ] Add note form.
-- [ ] Refresh case after adding note.
-- [ ] Add back link to dashboard.
+- [x] Add API function to retrieve one case.
+- [x] Add API function to update one case.
+- [x] Add API function to create a note.
+- [x] Build case detail loading state.
+- [x] Build case detail error state.
+- [x] Display full case information.
+- [x] Add status update control.
+- [x] Add priority update control.
+- [x] Display due date and overdue state.
+- [x] Display notes.
+- [x] Add note form.
+- [x] Refresh case after adding note.
+- [x] Add back link to dashboard.
 
 Detail page should show:
 
@@ -716,20 +716,20 @@ Detail page should show:
 
 Verification:
 
-- [ ] Click case from dashboard.
-- [ ] Detail page loads from backend.
-- [ ] Status can be updated.
-- [ ] Priority can be updated.
-- [ ] Note can be added.
-- [ ] Added note appears without manual database editing.
-- [ ] Browser refresh on detail page still works.
+- [x] Click case from dashboard.
+- [x] Detail page loads from backend.
+- [x] Status can be updated.
+- [x] Priority can be updated.
+- [x] Note can be added.
+- [x] Added note appears without manual database editing.
+- [x] Browser refresh on detail page still works.
 
 Move-on gate:
 
-- [ ] Case detail workflow works end to end.
-- [ ] Notes are usable.
-- [ ] Status and priority updates persist.
-- [ ] No TypeScript errors.
+- [x] Case detail workflow works end to end.
+- [x] Notes are usable.
+- [x] Status and priority updates persist.
+- [x] No TypeScript errors.
 
 Suggested commit:
 

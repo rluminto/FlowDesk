@@ -22,6 +22,7 @@ The project is designed as a realistic full-stack portfolio app using a React fr
 - Local fake case seed data is available
 - Frontend app shell and routing are implemented
 - Dashboard can load, search, filter, and create cases
+- Case detail page can load cases, update status/priority, and add notes
 
 ## Tech Stack
 
