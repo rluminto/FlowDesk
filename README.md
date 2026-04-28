@@ -100,6 +100,7 @@ python -m venv venv
 .\venv\Scripts\python.exe -m pip install --upgrade pip
 .\venv\Scripts\python.exe -m pip install -r requirements.txt
 .\venv\Scripts\python.exe manage.py migrate
+.\venv\Scripts\python.exe manage.py seed_cases
 .\venv\Scripts\python.exe manage.py runserver
 ```
 
@@ -114,6 +115,23 @@ Admin login page:
 ```text
 http://127.0.0.1:8000/admin/login/
 ```
+
+### Sample Data
+
+The backend includes a local development seed command that creates fake operational cases and notes:
+
+```powershell
+Set-Location backend
+.\venv\Scripts\python.exe manage.py seed_cases
+```
+
+To reset existing local cases before seeding:
+
+```powershell
+.\venv\Scripts\python.exe manage.py seed_cases --clear
+```
+
+The seed data is intentionally fake and should not contain real health, customer, or sensitive information.
 
 ### Frontend
 

@@ -41,7 +41,7 @@ FlowDesk/
 Current active part:
 
 ```text
-Part 4 - Backend quality pass and seed data
+Part 5 - Frontend project setup
 ```
 
 ## Part Overview
@@ -440,16 +440,16 @@ Realistic sample data helps the frontend look like an actual product and makes s
 
 Tasks:
 
-- [ ] Add simple sample data path.
-- [ ] Decide between fixture or management command.
-- [ ] Create several fake cases.
-- [ ] Include different statuses.
-- [ ] Include different priorities.
-- [ ] Include different categories.
-- [ ] Include due dates.
-- [ ] Include at least one overdue case.
-- [ ] Include notes on some cases.
-- [ ] Verify API response with sample data.
+- [x] Add simple sample data path.
+- [x] Decide between fixture or management command.
+- [x] Create several fake cases.
+- [x] Include different statuses.
+- [x] Include different priorities.
+- [x] Include different categories.
+- [x] Include due dates.
+- [x] Include at least one overdue case.
+- [x] Include notes on some cases.
+- [x] Verify API response with sample data.
 
 Preferred option:
 
@@ -488,10 +488,10 @@ http://127.0.0.1:8000/api/cases/
 
 Move-on gate:
 
-- [ ] Seed command or fixture exists.
-- [ ] Fake data appears in API.
-- [ ] No sensitive or real personal data exists.
-- [ ] Frontend will have useful data to display.
+- [x] Seed command or fixture exists.
+- [x] Fake data appears in API.
+- [x] No sensitive or real personal data exists.
+- [x] Frontend will have useful data to display.
 
 Suggested commit:
 
