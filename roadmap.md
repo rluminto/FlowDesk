@@ -41,7 +41,7 @@ FlowDesk/
 Current active part:
 
 ```text
-Part 3 - REST API for cases and notes
+Part 4 - Backend quality pass and seed data
 ```
 
 ## Part Overview
@@ -362,19 +362,19 @@ backend/config/urls.py
 
 Tasks:
 
-- [ ] Create `CaseNoteSerializer`.
-- [ ] Create `CaseSerializer`.
-- [ ] Include nested read-only notes on case responses.
-- [ ] Include computed `overdue` field.
-- [ ] Create `CaseViewSet`.
-- [ ] Create `CaseNoteViewSet`.
-- [ ] Add DRF router.
-- [ ] Include API URLs under `/api/`.
-- [ ] Support filtering by status.
-- [ ] Support filtering by priority.
-- [ ] Support filtering by category.
-- [ ] Support search by title and description.
-- [ ] Add ordering by newest first.
+- [x] Create `CaseNoteSerializer`.
+- [x] Create `CaseSerializer`.
+- [x] Include nested read-only notes on case responses.
+- [x] Include computed `overdue` field.
+- [x] Create `CaseViewSet`.
+- [x] Create `CaseNoteViewSet`.
+- [x] Add DRF router.
+- [x] Include API URLs under `/api/`.
+- [x] Support filtering by status.
+- [x] Support filtering by priority.
+- [x] Support filtering by category.
+- [x] Support search by title and description.
+- [x] Add ordering by newest first.
 
 API endpoints:
 
@@ -402,21 +402,21 @@ GET /api/cases/?search=refund
 
 Verification:
 
-- [ ] Open `/api/cases/` in the browser.
-- [ ] Create a case using DRF browsable API.
-- [ ] Create a note using DRF browsable API.
-- [ ] Confirm case detail includes notes.
-- [ ] Try each filter query.
-- [ ] Try search query.
+- [x] Open `/api/cases/` in the browser.
+- [x] Create a case using DRF browsable API.
+- [x] Create a note using DRF browsable API.
+- [x] Confirm case detail includes notes.
+- [x] Try each filter query.
+- [x] Try search query.
 
 Move-on gate:
 
-- [ ] Case CRUD works.
-- [ ] Note CRUD works.
-- [ ] Filters work.
-- [ ] Search works.
-- [ ] Case response includes overdue.
-- [ ] Case response includes notes.
+- [x] Case CRUD works.
+- [x] Note CRUD works.
+- [x] Filters work.
+- [x] Search works.
+- [x] Case response includes overdue.
+- [x] Case response includes notes.
 
 Suggested commit:
 

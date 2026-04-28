@@ -51,6 +51,43 @@ See [roadmap.md](roadmap.md) for the active execution checklist.
 
 See [plan.md](plan.md) for the full product plan and project rationale.
 
+## API Routes
+
+Base URL:
+
+```text
+http://127.0.0.1:8000/api/
+```
+
+Case endpoints:
+
+```http
+GET /api/cases/
+POST /api/cases/
+GET /api/cases/{id}/
+PATCH /api/cases/{id}/
+DELETE /api/cases/{id}/
+```
+
+Note endpoints:
+
+```http
+GET /api/notes/
+POST /api/notes/
+GET /api/notes/{id}/
+PATCH /api/notes/{id}/
+DELETE /api/notes/{id}/
+```
+
+Case filters:
+
+```http
+GET /api/cases/?status=open
+GET /api/cases/?priority=urgent
+GET /api/cases/?category=billing
+GET /api/cases/?search=refund
+```
+
 ## Local Setup
 
 ### Backend
