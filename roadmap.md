@@ -41,7 +41,7 @@ FlowDesk/
 Current active part:
 
 ```text
-Part 5 - Frontend project setup
+Part 6 - Dashboard list, filters, and create form
 ```
 
 ## Part Overview
@@ -531,14 +531,14 @@ frontend/
 
 Tasks:
 
-- [ ] Create Vite React TypeScript app.
-- [ ] Install dependencies.
-- [ ] Install and configure Tailwind CSS.
-- [ ] Install React Router.
-- [ ] Create `.env` with `VITE_API_BASE_URL`.
-- [ ] Create basic app shell.
-- [ ] Create routes for dashboard and case detail.
-- [ ] Confirm Vite dev server works.
+- [x] Create Vite React TypeScript app.
+- [x] Install dependencies.
+- [x] Install and configure Tailwind CSS.
+- [x] Install React Router.
+- [x] Create `.env` with `VITE_API_BASE_URL`.
+- [x] Create basic app shell.
+- [x] Create routes for dashboard and case detail.
+- [x] Confirm Vite dev server works.
 
 Suggested commands:
 
@@ -570,11 +570,11 @@ http://localhost:5173/
 
 Move-on gate:
 
-- [ ] Vite app runs.
-- [ ] TypeScript compiles.
-- [ ] Tailwind styles apply.
-- [ ] Router works.
-- [ ] API base URL is configured.
+- [x] Vite app runs.
+- [x] TypeScript compiles.
+- [x] Tailwind styles apply.
+- [x] Router works.
+- [x] API base URL is configured.
 
 Suggested commit:
 

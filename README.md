@@ -135,11 +135,37 @@ The seed data is intentionally fake and should not contain real health, customer
 
 ### Frontend
 
-Frontend setup instructions will be added once the React app is created.
+From the repo root:
+
+```powershell
+Set-Location frontend
+npm install
+npm run dev
+```
+
+Frontend URL:
+
+```text
+http://127.0.0.1:5173/
+```
+
+Frontend environment:
+
+```text
+VITE_API_BASE_URL=http://127.0.0.1:8000/api
+```
 
 ## Running Tests
 
 Backend test instructions will be added once the test suite is in place.
+
+Frontend checks:
+
+```powershell
+Set-Location frontend
+npm run lint
+npm run build
+```
 
 ## Demo
 
